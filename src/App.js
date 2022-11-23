@@ -1,0 +1,48 @@
+import React, { Component } from 'react'
+
+
+class App extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      email: '',
+      senha: '',
+      sexo: ''
+    }
+    this.trocaEmail=this.trocaEmail.bind(this)
+  }
+
+  trocaEmail(e){
+    let valorDigitado = e.target.value;
+    this.setState({email: valorDigitado})
+  }
+
+  render() {
+    return (
+      <div>
+        <h2> Login </h2>
+        E-mail
+        <input type="email" name='email' value={this.state.email} onChange={this.trocaEmail}></input> <br></br>
+        Senha
+        <input type="password" name='senha' value={this.state.senha} onChange={(e)=> this.setState({senha: e.target.value})} ></input> <br></br>
+
+        Sexo: 
+        <select name='sexo' value={this.state.sexo} onChange={(s)=> this.setState({sexo: s.target.value})} >
+        <option value='masculino'>Masculino</option>
+        <option value='feminino'>Feminino</option>
+        </select>
+
+        <div>
+        <h3>{this.state.email}</h3>
+        <h3>{this.state.senha}</h3>
+        <h3>{this.state.sexo}</h3>
+      </div>
+      </div>
+
+      
+    )
+  }
+}
+
+export default App
