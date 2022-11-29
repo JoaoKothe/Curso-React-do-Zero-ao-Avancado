@@ -1,48 +1,71 @@
 import React, { Component } from 'react'
+import './style.css'
 
 
 class App extends Component {
 
+
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      email: '',
-      senha: '',
-      sexo: ''
-    }
-    this.trocaEmail=this.trocaEmail.bind(this)
+      numero: 0,
+      botao: 'VAI'
+    };
+
+    this.timer = null
+    this.vai = this.vai.bind(this)
+    this.limpar = this.limpar.bind(this)
   }
 
-  trocaEmail(e){
-    let valorDigitado = e.target.value;
-    this.setState({email: valorDigitado})
+  vai() {
+
+    let state = this.state
+
+    if (this.timer !== null){
+      clearInterval(this.timer);
+      this.timer = null;
+      state.botao = 'VAI'
+    } else {this.timer = setInterval(() => {
+      let state = this.state;
+      state.numero += 0.1
+      this.setState(state)
+    }, 100)
+    state.botao = 'PARAR'
+  }
+   this.setState(state)
+  }
+
+
+  limpar(){
+    if (this.timer !== null){
+      clearInterval(this.timer);
+      this.timer = null;
+  }
+
+  let state = this.state;
+  state.numero = 0
+  state.botao = 'VAI'
+  this.setState(state)
   }
 
   render() {
     return (
-      <div>
-        <h2> Login </h2>
-        E-mail
-        <input type="email" name='email' value={this.state.email} onChange={this.trocaEmail}></input> <br></br>
-        Senha
-        <input type="password" name='senha' value={this.state.senha} onChange={(e)=> this.setState({senha: e.target.value})} ></input> <br></br>
+      <div className='container'>
+        <img src={require('./assets/cronometro.png')} className='img' />
+        <a className='timer'>{this.state.numero.toFixed(1)}</a>
+        <div className='areaBtn'>
+          <a className='botao' onClick={this.vai}>{this.state.botao}</a>
+          <a className='botao' onClick={this.limpar}>LIMPAR</a>
+        </div>
 
-        Sexo: 
-        <select name='sexo' value={this.state.sexo} onChange={(s)=> this.setState({sexo: s.target.value})} >
-        <option value='masculino'>Masculino</option>
-        <option value='feminino'>Feminino</option>
-        </select>
 
-        <div>
-        <h3>{this.state.email}</h3>
-        <h3>{this.state.senha}</h3>
-        <h3>{this.state.sexo}</h3>
-      </div>
       </div>
 
-      
+
     )
   }
 }
+
+
 
 export default App
